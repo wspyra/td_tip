@@ -1,5 +1,6 @@
 # TdTip
 
+[![Gem Version](https://badge.fury.io/rb/td_tip.svg)](https://badge.fury.io/rb/td_tip)
 [![Build Status](https://travis-ci.org/wspyra/td_tip.svg)](https://travis-ci.org/wspyra/td_tip)
 [![Coverage Status](https://coveralls.io/repos/wspyra/td_tip/badge.svg?branch=master&service=github)](https://coveralls.io/github/wspyra/td_tip?branch=master)
 [![Dependency Status](https://gemnasium.com/wspyra/td_tip.svg)](https://gemnasium.com/wspyra/td_tip)
