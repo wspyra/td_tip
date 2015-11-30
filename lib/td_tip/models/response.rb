@@ -37,7 +37,7 @@ module TdTip
       end
 
       def parse_and_symbolize_json
-        with_error_handling { JSON.parse(calculate_request).symbolize_keys! }
+        with_error_handling { JSON.parse(calculate_request.body).symbolize_keys! }
       end
 
       def calculate_request
