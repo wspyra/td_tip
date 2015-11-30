@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require 'td_tip'
+
+TdTip::Cli.start ARGV
