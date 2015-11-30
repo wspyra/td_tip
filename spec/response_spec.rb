@@ -21,7 +21,7 @@ describe TdTip::Models::Response do
     end
 
     it 'should parse valid json' do
-      allow(@response.class).to receive(:post) { json_2 }
+      allow(@response).to receive(:calculate_request) { OpenStruct.new body: json_2 }
 
       expect(@response.send :parse_and_symbolize_json).to eq(result_1)
     end
