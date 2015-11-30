@@ -1,7 +1,7 @@
-require 'simplecov'
+require 'coveralls'
 require 'td_tip/config'
 
-SimpleCov.start
+Coveralls.wear!
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
