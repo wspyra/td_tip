@@ -54,7 +54,7 @@ module TdTip
 
       def with_error_handling
         yield
-      rescue HTTParty::Error, JSON::ParserError => e
+      rescue HTTParty::Error, Net::ReadTimeout, JSON::ParserError => e
         { error: e.message }
       end
     end
