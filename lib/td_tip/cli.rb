@@ -11,12 +11,13 @@ module TdTip
 
     attr_reader :cli_options, :parameters, :response
 
+    # Main/default action
     def calculate
       set_cli_options
       set_parameters
 
       if parameters.valid?
-        @response = TdTip::Models::Response.new(parameters).get
+        set_response
         display_response
       else
         display_validation_errors parameters
@@ -25,16 +26,24 @@ module TdTip
 
     private
 
+    # Set options from command line or ask user
     def set_cli_options
       @cli_options = options.dup
       @cli_options[:amount] ||= ask('# Please provide amount:')
       @cli_options[:tip] ||= ask('# Please provide tip (%):')
     end
 
+    # Set parameters from options
     def set_parameters
       @parameters = TdTip::Models::Parameters.new cli_options
     end
 
+    # Set response using parameters
+    def set_response
+      @response = TdTip::Models::Response.new(parameters).get
+    end
+
+    # Print response on screen
     def display_response
       if response.valid?
         say "# Total amount with tip: #{response.amount_with_tip}" \
@@ -45,6 +54,7 @@ module TdTip
       end
     end
 
+    # Print validation messages
     def display_validation_errors(obj)
       obj.errors.messages.each do |field, messages|
         say "# #{field.capitalize}: #{messages.join ', '}\n"

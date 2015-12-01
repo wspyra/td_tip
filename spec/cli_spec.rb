@@ -69,12 +69,28 @@ describe TdTip::Cli do
 
     it 'should has a response' do
       @cli.send(:options=, amount: amount_1, tip: tip_1)
-
-      allow(TdTip::Models::Response).to receive(:get) { {} }
+      resp = double(TdTip::Models::Response, amount_with_tip: amount_1, tip: tip_1, currency: 'EUR')
+      allow(resp).to receive(:get) { resp }
+      allow(resp).to receive(:valid?) { true }
+      allow(TdTip::Models::Response).to receive(:new) { resp }
+      allow(@cli).to receive(:say) { }
 
       @cli.calculate
 
-      expect(@cli.response).to be_instance_of TdTip::Models::Response
+      expect(@cli.response).not_to be_nil
+    end
+
+    it 'should handle invalid response' do
+      @cli.send(:options=, amount: amount_1, tip: tip_1)
+      resp = double(TdTip::Models::Response, amount_with_tip: amount_1, tip: tip_1, currency: 'EUR')
+      allow(resp).to receive(:valid?) { false }
+      allow(@cli).to receive(:display_validation_errors) { 'test' }
+      allow(@cli).to receive(:say) { }
+      allow(@cli).to receive(:response) { resp }
+
+      out = @cli.send :display_response
+
+      expect(out).not_to be_nil
     end
   end
 end
