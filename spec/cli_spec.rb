@@ -18,7 +18,7 @@ describe TdTip::Cli do
 
   context 'options from command line' do
     before(:each) do
-      @cli.send(:options=, { amount: amount_1, tip: tip_1 })
+      @cli.send(:options=, amount: amount_1, tip: tip_1)
     end
 
     it 'should use amount from command line' do
@@ -35,7 +35,6 @@ describe TdTip::Cli do
   end
 
   context 'input from user' do
-
     it 'should ask for amount when no parameter' do
       @cli.send :set_cli_options
 
@@ -51,7 +50,7 @@ describe TdTip::Cli do
 
   context 'parameters' do
     it 'should set parameters from options' do
-      @cli.send(:options=, { amount: amount_1, tip: tip_1 })
+      @cli.send(:options=, amount: amount_1, tip: tip_1)
       @cli.send :set_cli_options
       @cli.send :set_parameters
 
@@ -61,7 +60,7 @@ describe TdTip::Cli do
 
   context 'calculation' do
     it 'should display parameters validation errors' do
-      @cli.send(:options=, { amount: amount_2, tip: tip_1 })
+      @cli.send(:options=, amount: amount_2, tip: tip_1)
 
       allow(@cli).to receive(:display_validation_errors) { error_1 }
 
@@ -69,7 +68,7 @@ describe TdTip::Cli do
     end
 
     it 'should has a response' do
-      @cli.send(:options=, { amount: amount_1, tip: tip_1 })
+      @cli.send(:options=, amount: amount_1, tip: tip_1)
 
       allow(TdTip::Models::Response).to receive(:get) { {} }
 

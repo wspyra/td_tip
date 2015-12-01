@@ -2,7 +2,7 @@ require 'httparty'
 
 module TdTip
   module Models
-    # Response
+    # Response - performs request and handle response
     class Response
       include ActiveModel::Validations
       include HTTParty
@@ -21,6 +21,7 @@ module TdTip
         @parameters = parameters
       end
 
+      # Performs request and handle response
       def get
         result = parse_and_symbolize_json
         @amount_with_tip = result[:amount_with_tip]
@@ -32,14 +33,19 @@ module TdTip
 
       private
 
+      # Adds additional validation
       def other_errors
         errors.add(:error, error) unless error.blank?
       end
 
+      # Process request response
       def parse_and_symbolize_json
-        with_error_handling { JSON.parse(calculate_request.body).symbolize_keys! }
+        with_error_handling do
+          JSON.parse(calculate_request.body).symbolize_keys!
+        end
       end
 
+      # Performs post request to Web Service
       def calculate_request
         self.class.post WS_METHOD,
                         query: parameters.to_params,
@@ -48,7 +54,7 @@ module TdTip
 
       def with_error_handling
         yield
-      rescue => e
+      rescue HTTParty::Error, JSON::ParserError => e
         { error: e.message }
       end
     end

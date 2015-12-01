@@ -21,13 +21,19 @@ describe TdTip::Models::Response do
     end
 
     it 'should parse valid json' do
-      allow(@response).to receive(:calculate_request) { OpenStruct.new body: json_2 }
+      allow(@response).to receive(:calculate_request) {
+        HTTParty::Response.new OpenStruct.new(options: {}),
+                               OpenStruct.new(body: json_2),
+                               -> {}
+      }
 
       expect(@response.send :parse_and_symbolize_json).to eq(result_1)
     end
 
     it 'should handle exceptions' do
-      allow(@response).to receive(:calculate_request) { fail 'Test' }
+      allow(@response).to receive(:calculate_request) {
+        fail HTTParty::Error, 'Test'
+      }
 
       expect(@response.send :parse_and_symbolize_json).to eq(error: 'Test')
     end
@@ -35,7 +41,9 @@ describe TdTip::Models::Response do
 
   context 'model' do
     it 'should add exceptions to validations' do
-      allow(@response).to receive(:calculate_request) { fail 'Test' }
+      allow(@response).to receive(:calculate_request) {
+        fail HTTParty::Error, 'Test'
+      }
 
       @response.get
       @response.valid?

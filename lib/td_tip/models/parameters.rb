@@ -17,12 +17,14 @@ module TdTip
         parse_amount options[:amount]
       end
 
+      # Returns parameters for Web Service
       def to_params
         { amount: amount, tip: tip }
       end
 
       protected
 
+      # Parses raw amount into final amount and currency
       def parse_amount(amount_raw)
         matches = TdTip::AMOUNT_CURRENCY_REGEXP.match amount_raw
         return unless matches
